@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balázs Jordán - Web Developer & Python Specialist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+            transition: background 0.1s ease;
+        }
+
+        .orb {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            mix-blend-mode: multiply;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            top: 80px;
+            left: 80px;
+            background: #a855f7;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            bottom: 80px;
+            right: 80px;
+            background: #06b6d4;
+            animation: pulse 4s ease-in-out infinite 1s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .sparkle {
+            color: #c084fc;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #c084fc, #ec4899, #06b6d4);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .name {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .subtitle {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.8s forwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #9333ea, #06b6d4);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #06b6d4, #9333ea);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #334155;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: #1e293b;
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: scale(1.05);
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid #1e293b;
+            border-radius: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #9333ea, #06b6d4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: rotate(12deg);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .card li {
+            color: #cbd5e1;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .card li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #c084fc;
+            font-weight: bold;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .skill-tag {
+            padding: 1rem;
+            background: rgba(48, 64, 90, 0.5);
+            border: 1px solid #334155;
+            border-radius: 1rem;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag .skills-text {
+            color: #fff;
+            background: none;
+            -webkit-text-fill-color: white;
+            cursor: pointer;
+        }
+
+        .skill-tag:hover {
+            border-color: rgba(190, 85, 247, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .showcase {
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.3), rgba(6, 95, 117, 0.3));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .showcase-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #9333ea, #06b6d4);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .showcase h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .showcase p {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #334155;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            color: #cbd5e1;
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid #1e293b;
+            text-align: center;
+        }
+
+        footer p {
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #334155;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .social-link:hover {
+            background: #1e293b;
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: scale(1.1);
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .showcase-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+        
+        .price {
+            color: #b586d0;
+            transition: all .5s;
+            cursor: text;
+            font-size: 1.3rem;
+            margin: 4.5px;
+            cursor: text;
+        }
+
+        .price:hover {
+            color: #a37fe7;
+            font-size: 1.32rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient" id="gradient"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="content">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="badge">
+                    <span class="gradient-text">Currently available for work</span>
+                </div>
+
+                <h2 class="name">Balázs Jordán</h2>
+
+                <h1>
+                    <span class="gradient-text">Web Developer<br>& Python Specialist</span>
+                </h1>
+
+                <p class="subtitle">
+                    Motivated developer specializing in web development and Discord bot creation. I build custom solutions with clean, maintainable code and deliver reliable results.
+                </p>
+
+                <div class="cta-buttons">
+                    <a href="https://www.upwork.com/freelancers/~015a2f1e1e12ede4ac" target="_blank" class="btn btn-primary">
+                        <span>
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.47 6.07a4.54 4.54 0 0 0-4.38 3.69 19.9 19.9 0 0 1-2.28-4.9H8.55v6a2.14 2.14 0 1 1-4.28 0v-6L2 4.91v6a4.4 4.4 0 1 0 8.8-.05v-1a20.55 20.55 0 0 0 1.65 2.7l-1.38 6.61h2.32l1-4.81a5.61 5.61 0 0 0 3.11.89 4.57 4.57 0 0 0 0-9.14zm0 6.83a4.09 4.09 0 0 1-2.55-1l.23-.91v-.05c.16-1 .66-2.6 2.35-2.6a2.25 2.25 0 0 1 2.27 2.24 2.41 2.41 0 0 1-2.27 2.32z"/></svg>
+                            View Upwork Profile
+                            <span class="arrow">→</span>
+                        </span>
+                    </a>
+
+                    <a href="https://github.com/GhostMonster2" target="_blank" class="btn btn-secondary">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.1-.4-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2v3c0 .3.1.7.8.6A12 12 0 0 0 12 0z"/></svg>
+                        GitHub Portfolio
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>
+                    <span class="gradient-text">What I Offer</span>
+                </h2>
+
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                        </div>
+                        <h3 class="gradient-text">Web Development</h3>
+                        <p>Custom web development solutions with modern frontend technologies and simple backend implementations. Clean, responsive designs that work seamlessly across devices.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
+                        <h3 class="gradient-text">Discord Bot Development</h3>
+                        <p>Custom Discord bots and automation solutions built with Python or Node.js. From moderation tools to custom commands, I create bots that enhance your server experience.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/>
+                            <path stroke-width="2" stroke-linecap="round" d="M7 5v14M17 5v14"/>
+                            <path stroke-width="2" stroke-linecap="round" d="M10 12h4"/>
+                            </svg>
+                        </div>
+                        <h3 class="gradient-text">Video Editing</h3>
+                        <p>Well-structured, polished edits with clear storytelling and strong pacing. I prioritize organization, consistency, and attention to detail, making videos easy to watch, easy to refine, and effective for engaging audiences.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>
+                    <span class="gradient-text">Technical Skills</span>
+                </h2>
+                <div class="skills-grid" style="justify-content: center; align-items: center; text-align: center; display: flex;">
+                    <div class="skill-tag skills-text">Python</div>
+                    <div class="skill-tag skills-text">JavaScript</div>
+                    <div class="skill-tag skills-text">HTML/CSS</div>
+                    <div class="skill-tag skills-text">SQL</div>
+                    <div class="skill-tag skills-text">Discord.py</div>
+                    <div class="skill-tag skills-text">Node.js</div>
+                    <div class="skill-tag skills-text" style="width: 190px;">Linux/Windows VPS</div>
+                    <div class="skill-tag skills-text" style="width: 55px;">Git</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>
+                    <span class="gradient-text">Experience & Background</span>
+                </h2>
+
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        </div>
+                        <h3 class="gradient-text">International Projects</h3>
+                        <p>Participated in several small international projects involving Python applications and server management. Gained experience in:</p>
+                        <ul>
+                            <li>Working with Linux and Windows VPS environments</li>
+                            <li>Managing physical server machines</li>
+                            <li>Collaborating with international teams</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                        </div>
+                        <h3 class="gradient-text">Administrative & Data Work</h3>
+                        <p>Experience in handling various administrative tasks with emphasis on accuracy and organization:</p>
+                        <ul>
+                            <li>Data handling and organization</li>
+                            <li>Accurate record-keeping and documentation</li>
+                            <li>Digital content organization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section style="justify-content: center; align-items: center; text-align: center; display: flex; flex-direction: column;">
+            <h2 class="gradient-text">Pricing</h2>
+            <div class="card" style="height: 80px; width: 1200px; display: flex; align-items: center; justify-content: center; text-align: center;">
+                <p>Starting at <strong class="price">$15/hour</strong> for web development and Discord bot projects. Contact me for custom quotes based on your specific needs.</p>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="showcase">
+                    <div class="showcase-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                    </div>
+                    <h3 class="gradient-text">Portfolio or Example? - You are looking at one.</h3>
+                    <p>Every line of code, every animation, and every interaction on this site was crafted by me. This portfolio itself is a demonstration of my capabilities in modern web development. More of my portfolio is available on my Upwork profile.</p>
+                    <div class="tech-badge">
+                        <span class="sparkle">✨</span>
+                        Built with HTML, CSS, JavaScript, and passion
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p>Let's create something amazing together</p>
+                <div class="social-links">
+                    <a href="mailto:jordan.balimor@gmail.com" class="social-link" title="Email">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </a>
+                    <a href="https://github.com/GhostMonster2" target="_blank" class="social-link" title="GitHub">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.1-.4-.6-1.6.1-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2v3c0 .3.1.7.8.6A12 12 0 0 0 12 0z"/></svg>
+                    </a>
+                    <a href="https://www.upwork.com/freelancers/~015a2f1e1e12ede4ac/freelancers/~015a2f1e1e12ede4ac" target="_blank" class="social-link" title="Upwork">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.47 6.07a4.54 4.54 0 0 0-4.38 3.69 19.9 19.9 0 0 1-2.28-4.9H8.55v6a2.14 2.14 0 1 1-4.28 0v-6L2 4.91v6a4.4 4.4 0 1 0 8.8-.05v-1a20.55 20.55 0 0 0 1.65 2.7l-1.38 6.61h2.32l1-4.81a5.61 5.61 0 0 0 3.11.89 4.57 4.57 0 0 0 0-9.14zm0 6.83a4.09 4.09 0 0 1-2.55-1l.23-.91v-.05c.16-1 .66-2.6 2.35-2.6a2.25 2.25 0 0 1 2.27 2.24 2.41 2.41 0 0 1-2.27 2.32z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const gradient = document.getElementById('gradient');
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            gradient.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(139, 92, 246, 0.15), transparent 50%)`;
+        });
+    </script>
+</body>
+</html>
